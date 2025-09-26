@@ -34,7 +34,7 @@ fun DailyForecast() {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.LightGray)
-                .padding(16.dp)
+                .padding(25.dp)
         ) {
             Text("Halifax, Nova Scotia")
         }
