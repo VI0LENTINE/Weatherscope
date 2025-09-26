@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.weatherapp.ui.screens.CurrentWeather
+import com.example.weatherapp.ui.screens.DailyForecast
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,8 +31,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             WeatherAppTheme {
 //              Greeting()
-                CurrentWeather()
-//              DailyForecast()
+//              CurrentWeather()
+                DailyForecast()
             }
         }
     }
