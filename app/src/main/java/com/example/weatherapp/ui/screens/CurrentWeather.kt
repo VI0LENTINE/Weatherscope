@@ -21,7 +21,6 @@ import com.example.weatherapp.R
 @Preview
 @Composable
 fun CurrentWeather() {
-    // weather image
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,25 +46,21 @@ fun CurrentWeather() {
             modifier = Modifier
                 .fillMaxWidth()
         ){
-            //condition
             Text("Rainy")
-            //temperature
             Text("6°C")
             Text("Feels like 2°C")
-            //precipitation type and amount
             Text("2mm of rain")
-            //wind direction and speed
             Text("Wind NW 18 kph")
         }
     }
-    // Halifax NS tab
-    Column(
-        verticalArrangement = Arrangement.Top,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.LightGray)
-            .padding(25.dp)
-    ) {
-        Text("Halifax, Nova Scotia")
-    }
+
+//    Column(
+//        verticalArrangement = Arrangement.Top,
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .background(Color.LightGray)
+//            .padding(25.dp)
+//    ) {
+//        Text("Halifax, Nova Scotia")
+//    }
 }

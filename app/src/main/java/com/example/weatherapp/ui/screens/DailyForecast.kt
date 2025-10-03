@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 @Preview
 @Composable
 fun DailyForecast() {
-    // Whole page
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -29,17 +29,17 @@ fun DailyForecast() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Halifax NS tab
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.LightGray)
-                .padding(25.dp)
-        ) {
-            Text("Halifax, Nova Scotia")
-        }
 
-        // Day 1
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .background(Color.LightGray)
+//                .padding(25.dp)
+//        ) {
+//            Text("Halifax, Nova Scotia")
+//        }
+
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -54,7 +54,7 @@ fun DailyForecast() {
             Text("High: 10°C  Low: 5°C. Overcast. Maximum winds 26kph. Humidity 76%")
         }
 
-        // Day 2
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -72,7 +72,7 @@ fun DailyForecast() {
             Text("Sun, Sep 28")
             Text("High: 15°C  Low: 8°C. Sunny. Maximum winds 15kph. Humidity 60%")
         }
-        // Day 3
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
