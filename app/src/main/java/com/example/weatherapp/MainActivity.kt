@@ -4,13 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,40 +20,36 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.ui.screens.CurrentWeather
 import com.example.weatherapp.ui.screens.DailyForecast
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
+    // Store view model in MainActivity
+    private val mainViewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             WeatherAppTheme {
-//              Greeting()
-//              CurrentWeather()
-//                DailyForecast()
-                DisplayUI()
+                DisplayUI(mainViewModel)
             }
         }
     }
 }
 
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DisplayUI() {
+fun DisplayUI(mainViewModel: MainViewModel) {
     val navController = rememberNavController()
 
-    // Variable to store the selected value in Nav Bar
     var selectedItem by remember { mutableIntStateOf(0) }
 
     Scaffold(
@@ -78,8 +68,6 @@ fun DisplayUI() {
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.primary
             ) {
-                // Navbar items
-                // Link to CurrentWeather screen
                 NavigationBarItem(
                     label = {
                         Text("Now")
@@ -97,7 +85,6 @@ fun DisplayUI() {
                     }
                 )
 
-                // Link to DailyForecast screen
                 NavigationBarItem(
                     label = {
                         Text("Daily")
@@ -117,58 +104,19 @@ fun DisplayUI() {
             }
         }
     ) { innerPadding ->
-        // Use a Nav Host to render the screens
         NavHost(
             navController = navController,
             startDestination = "current",
             modifier = Modifier.padding(innerPadding)
         ) {
-            // Display CurrentWeather screen
+
             composable(route = "current") {
-                CurrentWeather()
+                CurrentWeather(mainViewModel)
             }
-            // Display DailyForecast screen
+
             composable(route = "forecast") {
-                DailyForecast()
+                DailyForecast(mainViewModel)
             }
         }
     }
 }
-
-//@Composable
-//fun Greeting() {
-//    Column(
-//        verticalArrangement = Arrangement.Center,
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        modifier = Modifier.fillMaxSize()
-//    ){
-//        Row(
-//            horizontalArrangement = Arrangement.SpaceAround,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//        )
-//        {
-//            Image(
-//                painter = painterResource(id = R.drawable.android_logo),
-//                contentDescription = "Android Logo")
-//        }
-//
-//
-//        Row(
-//            horizontalArrangement = Arrangement.SpaceAround,
-//            modifier = Modifier
-//                .background(Color.LightGray)
-//                .fillMaxWidth()
-//        ) {
-//            Text(
-//                text = "Hello",
-//            )
-//            Text(
-//                text = "Android",
-//            )
-//            Text(
-//                text = "Welcome to my app",
-//            )
-//        }
-//    }
-//}
