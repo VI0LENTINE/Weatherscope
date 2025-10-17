@@ -37,6 +37,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // Coroutines resource: https://developer.android.com/topic/libraries/architecture/coroutines
+        mainViewModel.getWeather("Halifax") // Used Pokemon Fetch call to fetch API weather for Halifax on app start
         setContent {
             WeatherAppTheme {
                 DisplayUI(mainViewModel)
@@ -51,6 +53,8 @@ fun DisplayUI(mainViewModel: MainViewModel) {
     val navController = rememberNavController()
 
     var selectedItem by remember { mutableIntStateOf(0) }
+
+    mainViewModel.getWeather("Halifax")
 
     Scaffold(
         topBar = {

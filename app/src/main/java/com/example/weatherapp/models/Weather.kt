@@ -1,43 +1,51 @@
 package com.example.weatherapp.models
 
+import com.google.gson.annotations.SerializedName
+
 data class Weather(
-    //a single Current model:
     val current: Current,
-    // and a List<Forecast> model.
-    val forecast: List<Forecast>
+    val forecast: Forecast
 )
 
+// --- Current Weather Section ---
 data class Current(
-//    weather image
-    val imageId: Int,
-//    condition
-    val condition: String,
-//    temperature
-    val temperature: String,
-//    precipitation type and amount
-    val precipitationType: String,
-    val precipitationAmount: String,
-//    wind direction and speed
-    val wind: String,
+    // Temperature
+    @SerializedName("temp_c") val temperature: Float,
+    // Precipitation amount
+    @SerializedName("precip_mm") val precipitationAmount: Float,
+    // Wind speed & direction
+    @SerializedName("wind_kph") val windSpeed: Float,
+    @SerializedName("wind_dir") val windDirection: String,
+    // Condition
+    val condition: Condition
 )
 
-data class Forecast(
-// date
-    val date: String,
-// weather image
-    val imageId: Int,
-// temperature high and low
-    val temperatureHigh: String,
-    val temperatureLow: String,
-// condition
-    val condition: String,
-// precipitation type, amount, and probability
-    val precipitationType: String,
-    val precipitationAmount: String,
-    val precipitationProbability: String,
-// wind direction and speed
-    val wind: String,
-// humidity
-    val humidity: String
+data class Condition(
+    val text: String,
+    val icon: String
+)
 
+// --- Forecast Section ---
+data class Forecast(
+    @SerializedName("forecastday") val forecastDay: List<ForecastDay>
+)
+
+data class ForecastDay(
+    @SerializedName("date") val date: String,
+    @SerializedName("day") val day: Day
+)
+
+data class Day(
+    // Max/min temps
+    @SerializedName("maxtemp_c") val maxTemp: Float,
+    @SerializedName("mintemp_c") val minTemp: Float,
+    // Precipitation
+    @SerializedName("totalprecip_mm") val precipitationAmount: Float,
+    @SerializedName("daily_chance_of_rain") val rainChance: String,
+    //Wind
+    @SerializedName("maxwind_kph") val maxWind: Float,
+    //Humidity
+    @SerializedName("avghumidity") val avgHumidity: Float,
+    //Condition
+    val condition: Condition
 )

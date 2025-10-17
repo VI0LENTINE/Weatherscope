@@ -1,70 +1,38 @@
 package com.example.weatherapp
 
 import androidx.lifecycle.ViewModel
-import com.example.weatherapp.models.Current
-import com.example.weatherapp.models.Forecast
+import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.models.Weather
+import com.example.weatherapp.services.WeatherService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 open class MainViewModel : ViewModel() {
     private val _weather = MutableStateFlow<Weather?>(null)
     val weather = _weather.asStateFlow()
 
-    init {
-        // Create Weather placeholder
-        val weather = Weather(
-            current = Current(
-                imageId = R.drawable.rain_cloud_icon,
-                condition = "Rainy",
-                temperature = "6°C",
-                precipitationType = "Rain",
-                precipitationAmount = "2mm",
-                wind = "Wind NW 18 kph"
-            ),
-            forecast = listOf(
-                // Saturday
-                Forecast(
-                    date = "Saturday",
-                    imageId = R.drawable.cloud_icon,
-                    temperatureHigh = "High: 10°C",
-                    temperatureLow = "Low: 5°C",
-                    condition = "Overcast",
-                    precipitationType = "None",
-                    precipitationAmount = "0mm",
-                    precipitationProbability = "10%",
-                    wind = "Maximum winds 26kph.",
-                    humidity = "Humidity 76%"
-                ),
-                // Sunday
-                Forecast(
-                    date = "Sunday",
-                    imageId = R.drawable.sun_icon,
-                    temperatureHigh = "High: 15°C",
-                    temperatureLow = "Low: 8°C",
-                    condition = "Sunny",
-                    precipitationType = "None",
-                    precipitationAmount = "0mm",
-                    precipitationProbability = "0%",
-                    wind = "Maximum winds 15kph",
-                    humidity = "Humidity 60%"
-                ),
-                // Monday
-                Forecast(
-                    date = "Monday",
-                    imageId = R.drawable.wind_icon,
-                    temperatureHigh = "High: 6°C",
-                    temperatureLow = "Low: 2°C",
-                    condition = "Windy",
-                    precipitationType = "None",
-                    precipitationAmount = "0mm",
-                    precipitationProbability = "5%",
-                    wind = "Maximum winds 27kph",
-                    humidity = "Humidity 20%"
-                )
-            )
-        )
+    // Retrofit instance
+    val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl("https://api.weatherapi.com/v1/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
-        _weather.value = weather
+    //Initialize interface surface
+    val weatherService: WeatherService = retrofit.create(WeatherService::class.java)
+
+    private val apiKey = "230c44f3f3d548c4a02153008251710"
+
+    fun getWeather(city: String = "Halifax") {
+        viewModelScope.launch {
+            try {
+                val response = weatherService.getWeather(apiKey, city, 3, "no", "no")
+                _weather.value = response
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }

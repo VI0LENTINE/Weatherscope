@@ -7,157 +7,77 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.ui.res.painterResource
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import coil.compose.rememberAsyncImagePainter
 import com.example.weatherapp.MainViewModel
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun DailyForecast(mainViewModel : MainViewModel) {
     // Get the weather object from stateflow
     val weather by mainViewModel.weather.collectAsState()
+    val forecastDays = weather?.forecast?.forecastDay
 
     // DailyForecast variables
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top,
-        modifier = Modifier.fillMaxSize()
-    ){
-        // List each forecast day in 3-day forecast
-        for(item in weather?.forecast!!){
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = item.date,
-                    style = MaterialTheme.typography.titleSmall
-                )
+    if (!forecastDays.isNullOrEmpty()) {
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // List each forecast day in 3-day forecast
+            items(forecastDays) { forecastDay ->
+                val day = forecastDay.day
+                val date = forecastDay.date
 
-                Image(
-                    painter = painterResource(id = item.imageId),
-                    contentDescription = "Forecast Icon",
-                    modifier = Modifier.size(40.dp)
-                )
-
-                Text(
-                    text = item.temperatureHigh,
-                    style = MaterialTheme.typography.titleSmall
-                )
-
-                Text(
-                    text = item.temperatureLow,
-                    style = MaterialTheme.typography.titleSmall
-                )
-
-                Text(
-                    text = item.condition,
-                    style = MaterialTheme.typography.titleSmall
-                )
-
-                Text(
-                    text = item.precipitationType,
-                    style = MaterialTheme.typography.titleSmall
-                )
-
-                Text(
-                    text = item.precipitationAmount,
-                    style = MaterialTheme.typography.titleSmall
-                )
-
-                Text(
-                    text = item.precipitationProbability,
-                    style = MaterialTheme.typography.titleSmall
-                )
-
-                Text(
-                    text = item.wind,
-                    style = MaterialTheme.typography.titleSmall
-                )
-                Text(
-                    text = item.humidity,
-                    style = MaterialTheme.typography.titleSmall
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                ) {
+                    // Date
+                    // FontWeight resource: https://developer.android.com/develop/ui/compose/text/style-text
+                    Text(
+                        text = date,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                    // Icon
+                    // String interpolation resource: https://kotlinlang.org/docs/basic-syntax.html#string-templates
+                    Image(
+                        painter = rememberAsyncImagePainter("https:${day.condition.icon}"),
+                        contentDescription = "Weather Icon",
+                        modifier = Modifier.size(128.dp)
+                    )
+                    // Temperature High & Low
+                    Text(
+                        text = "${day.maxTemp}°C High  " +
+                                "${day.minTemp}°C Low",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    // Condition, Precipitation Chance & Amount, Wind Speed & Humidity
+                    Text(
+                        text = "${day.condition.text}. " +
+                            "Chance of rain ${day.rainChance}%. " +
+                            "Amount ${day.precipitationAmount}mm. " +
+                            "Maximum winds ${day.maxWind}kph. " +
+                            "Humidity ${day.avgHumidity}%.",
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                }
             }
         }
     }
 }
-
-//Column(
-//modifier = Modifier
-//.fillMaxSize()
-//.background(Color.White),
-//verticalArrangement = Arrangement.Top,
-//horizontalAlignment = Alignment.CenterHorizontally
-//) {
-
-//        Row(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .background(Color.LightGray)
-//                .padding(25.dp)
-//        ) {
-//            Text("Halifax, Nova Scotia")
-//        }
-
-//    Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(4.dp)
-//    ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.cloud_icon),
-//            contentDescription = "Overcast Cloud"
-//        )
-//        Text("Sat, Sep 27")
-//        Text("High: 10°C  Low: 5°C. Overcast. Maximum winds 26kph. Humidity 76%")
-//    }
-//
-//
-//    Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(4.dp)
-//    ) {
-//        Row (
-//            modifier = Modifier.fillMaxWidth()
-//                .padding(15.dp)
-//        ){}
-//        Image(
-//            painter = painterResource(id = R.drawable.sun_icon),
-//            contentDescription = "Sunny"
-//        )
-//        Text("Sun, Sep 28")
-//        Text("High: 15°C  Low: 8°C. Sunny. Maximum winds 15kph. Humidity 60%")
-//    }
-//
-//    Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(4.dp)
-//    ) {
-//        Row (
-//            modifier = Modifier.fillMaxWidth()
-//                .padding(16.dp)
-//        ){}
-//        Image(
-//            painter = painterResource(id = R.drawable.wind_icon),
-//            contentDescription = "Windy"
-//        )
-//        Text("Mon, Sep 29")
-//        Text("High: 6°C  Low: 2°C. Windy. Maximum winds 27kph. Humidity 20%")
-//    }
-//}
-
