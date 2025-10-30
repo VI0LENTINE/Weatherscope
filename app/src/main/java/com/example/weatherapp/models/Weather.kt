@@ -3,8 +3,18 @@ package com.example.weatherapp.models
 import com.google.gson.annotations.SerializedName
 
 data class Weather(
+    val location: Location,
     val current: Current,
     val forecast: Forecast
+)
+
+data class Location(
+    @SerializedName("name") val locationName: String,
+    @SerializedName("region") val locationRegion: String,
+    @SerializedName("country") val locationCountry: String,
+    @SerializedName("lat") val locationLat: Float,
+    @SerializedName("lon") val locationLon: Float,
+    @SerializedName("localtime") val locationLocalTime: String
 )
 
 // --- Current Weather Section ---

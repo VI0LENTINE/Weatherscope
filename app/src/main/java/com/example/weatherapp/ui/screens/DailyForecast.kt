@@ -20,6 +20,8 @@ import androidx.compose.runtime.getValue
 import coil.compose.rememberAsyncImagePainter
 import com.example.weatherapp.MainViewModel
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+
 
 @Composable
 fun DailyForecast(mainViewModel : MainViewModel) {
@@ -74,7 +76,9 @@ fun DailyForecast(mainViewModel : MainViewModel) {
                             "Amount ${day.precipitationAmount}mm. " +
                             "Maximum winds ${day.maxWind}kph. " +
                             "Humidity ${day.avgHumidity}%.",
-                        style = MaterialTheme.typography.titleSmall
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
                     )
                 }
             }

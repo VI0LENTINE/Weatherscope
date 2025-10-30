@@ -28,7 +28,7 @@ open class MainViewModel : ViewModel() {
     fun getWeather(city: String = "Halifax") {
         viewModelScope.launch {
             try {
-                val response = weatherService.getWeather(apiKey, city, 3, "no", "no")
+                val response = weatherService.getWeather(apiKey, city, 14, "no", "no")
                 _weather.value = response
             } catch (e: Exception) {
                 e.printStackTrace()
