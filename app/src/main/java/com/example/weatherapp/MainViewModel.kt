@@ -16,7 +16,7 @@ open class MainViewModel : ViewModel() {
 
     // Retrofit instance
     val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://api.weatherapi.com/v1/")
+        .baseUrl("https://api.weatherapi.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

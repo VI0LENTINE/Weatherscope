@@ -14,6 +14,7 @@ data class Location(
     @SerializedName("country") val locationCountry: String,
     @SerializedName("lat") val locationLat: Float,
     @SerializedName("lon") val locationLon: Float,
+    // Extra feature: local time refresh
     @SerializedName("localtime") val locationLocalTime: String
 )
 
@@ -27,7 +28,7 @@ data class Current(
     @SerializedName("wind_kph") val windSpeed: Float,
     @SerializedName("wind_dir") val windDirection: String,
     // Condition
-    val condition: Condition
+    val condition: Condition,
 )
 
 data class Condition(
